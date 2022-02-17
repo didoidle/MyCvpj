@@ -23,20 +23,20 @@ int main()
 	{
 		cout << "--(!)Error loading face cascade\n";
 		return -1;
-	};
+	}
 	if (!eyes_cascade.load(
 		"D://qqwe/opencv/sources/data/haarcascades/haarcascade_eye_tree_eyeglasses.xml"))
 	{
 		cout << "--(!)Error loading eyes cascade\n";
 		return -1;
-	};
+	}
 
 
 	Mat img = cv::imread("./face1.jpg");
 	//cascade.load("lenna.jpg");
 	if (img.empty())
 	{
-		cout << "Couldn't read lena.jpg" << endl;
+		cout << "Couldn't read imgfile" << endl;
 		return 1;
 	}
 	//Mat img2;
