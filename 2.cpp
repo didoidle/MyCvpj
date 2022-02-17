@@ -14,8 +14,10 @@ int main()
 {
 	CascadeClassifier face_cascade;
 	CascadeClassifier eyes_cascade;
+	CascadeClassifier mouth_csacade;
 	CascadeClassifier cascade, nestedCascade;
 	Mat grayscale;
+	VideoCapture video;
 	vector<Rect> V;
 
 	if (!face_cascade.load(
@@ -30,8 +32,23 @@ int main()
 		cout << "--(!)Error loading eyes cascade\n";
 		return -1;
 	}
+	//glasses
+	if (!eyes_cascade.load(
+		"/haarcascade/haarcascade_eye_tree_eyeglasses.xml"))
+	{
+		cout << "--(!)Error loading glasses cascade\n";
+		return -1;
+	}
+	if (!face_cascade.load(
+		"/haarcascade/haarcascade_smile.xml"))
+	{
+		cout << "--(!)Error loading smile cascade\n";
+		return -1;
+	}
 
+	while (1) {
 
+	}
 	Mat img = cv::imread("./face1.jpg");
 	//cascade.load("lenna.jpg");
 	if (img.empty())
@@ -39,10 +56,10 @@ int main()
 		cout << "Couldn't read imgfile" << endl;
 		return 1;
 	}
-	//Mat img2;
+	
 	cvtColor(img, grayscale, COLOR_BGR2GRAY);
 	equalizeHist(grayscale, grayscale);
-	//imshow("test", grayscale);
+	
 	face_cascade.detectMultiScale(grayscale, V);
 	//cascade.detectMultiScale(grayscale, V, 1.1, 2, 0| CASCADE_DO_CANNY_PRUNING, Size(30, 30),Size(150,150));
 	cout << V.size()<<"\n"<<endl;
@@ -62,11 +79,11 @@ int main()
 			circle(img, eye_center, radius, Scalar(255, 0, 0), 2);
 		}
 	}
-	//-- Show what you got
+	
 	imshow("Capture - Face detection", img);
 	
 	
-	//imshow("test", grayscale);
+	
 	for (size_t i = 0; i < eyes.size(); i++) {
 		cout << eyes[i].x << " " << eyes[i].y << " " << eyes[i].width << " " << eyes[i].height << endl;
 	}
