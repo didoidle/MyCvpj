@@ -41,7 +41,7 @@ int main()
 	}
 
 	
-	if (!video.open(0, CAP_INTELPERC))
+	if (!video.open(0))
 	{
 		cout << "Capture from camera #" << 0 << " didn't work" << endl;
 		return 1;
@@ -50,15 +50,15 @@ int main()
 	if (video.isOpened())
 	{
 		cout << "Video capturing has been started ..." << endl;
-		for (;;)
+		while(1)
 		{
-			video;
+			
 			if (!video.read(frame))
 				break;
 			
 			cvtColor(frame, grayscale, COLOR_BGR2GRAY);
 			equalizeHist(grayscale, grayscale);
-			face_cascade.detectMultiScale(grayscale, V);
+			face_cascade.detectMultiScale(grayscale, V, 1.1, 1, 0, Size(150,150), Size(500,500));
 			std::vector<Rect> eyes;
 			for (size_t i = 0; i < V.size(); i++)
 			{
@@ -67,7 +67,7 @@ int main()
 				Mat faceROI = grayscale(V[i]);
 				//-- In each face, detect eyes
 				//std::vector<Rect> eyes;
-				eyes_cascade.detectMultiScale(faceROI, eyes);
+				eyes_cascade.detectMultiScale(faceROI, eyes, 1.1, 2);
 				for (size_t j = 0; j < eyes.size(); j++)
 				{
 					Point eye_center(V[i].x + eyes[j].x + eyes[j].width / 2, V[i].y + eyes[j].y + eyes[j].height / 2);
